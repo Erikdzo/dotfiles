@@ -1,0 +1,8 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+sudo apt install ripgrep
+
+cd
+git clone https://github.com/gpakosz/.tmux.conf
+ln -s -f .tmux/.tmux.conf
+{{ end -}}
