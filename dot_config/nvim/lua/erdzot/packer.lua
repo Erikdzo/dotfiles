@@ -81,4 +81,14 @@ return require('packer').startup(function(use)
 
     -- Harpoon
     use("ThePrimeagen/harpoon")
+
+    -- Copilot
+    use {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      config = function()
+        require("copilot").setup({})
+      end,
+    }
 end)
