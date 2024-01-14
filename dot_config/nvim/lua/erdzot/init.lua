@@ -1,6 +1,12 @@
-require("erdzot.remap")
+
+
+vim.g.mapleader = " "
+
 require("erdzot.set")
-require("erdzot.packer")
+require("erdzot.lazy")
+require("erdzot.remap")
+
+-- require("erdzot.packer")
 
 -- require 'nvim-treesitter.install'.compilers = { "clang","zig" }
 
@@ -8,7 +14,7 @@ require("erdzot.packer")
 --     disable_background = true
 -- })
 -- vim.cmd("colorscheme rose-pine")
-require("onedark").setup {
-    transparent = false
-}
-require("onedark").load()
+-- require("onedark").setup {
+--     transparent = false
+-- }
+-- require("onedark").load()
