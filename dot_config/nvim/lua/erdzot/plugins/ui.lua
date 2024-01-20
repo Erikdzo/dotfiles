@@ -10,13 +10,24 @@ return {
     },
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        dependencies = {
+            'nvim-tree/nvim-web-devicons',
+            'AndreM222/copilot-lualine',
+        },
         opts = {
             options = {
                 icons_enabled = false,
                 theme = 'onedark',
                 component_separators = '|',
                 section_separators = '',
+            },
+            sections = {
+                lualine_a = { 'mode' },
+                lualine_b = { 'branch' },
+                lualine_c = { 'filename' },
+                lualine_x = { { 'copilot', show_colors = true }, 'encoding', 'fileformat', 'filetype' },
+                lualine_y = { 'progress' },
+                lualine_z = { 'location' }
             },
         }
     },
