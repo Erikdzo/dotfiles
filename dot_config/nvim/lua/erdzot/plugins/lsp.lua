@@ -59,6 +59,18 @@ return {
                             filetypes = { 'typescript', 'javascript', 'vue' },
                         }
                     end,
+                    ["eslint"] = function()
+                        local lspconfig = require("lspconfig")
+                        lspconfig.eslint.setup {
+                            capabilities = capabilities,
+                            on_attach = function(client, bufnr)
+                                vim.api.nvim_create_autocmd("BufWritePre", {
+                                    buffer = bufnr,
+                                    command = "EslintFixAll",
+                                })
+                            end,
+                        }
+                    end,
                 }
             })
             local cmp = require("cmp")
