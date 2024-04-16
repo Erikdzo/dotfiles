@@ -55,25 +55,26 @@ return {
                     ["tsserver"] = function()
                         local lspconfig = require("lspconfig")
                         local mason_registry = require('mason-registry')
-                        local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+                        local vue_language_server_path = mason_registry.get_package('vue-language-server')
+                            :get_install_path() .. '/node_modules/@vue/language-server'
 
                         lspconfig.tsserver.setup {
                             capabilities = capabilities,
                             init_options = {
-                            plugins = {
-                                  {
-                                    name = "@vue/typescript-plugin",
-                                    location = vue_language_server_path,
-                                    languages = {"javascript", "typescript", "vue"},
-                                  },
+                                plugins = {
+                                    {
+                                        name = "@vue/typescript-plugin",
+                                        location = vue_language_server_path,
+                                        languages = { "javascript", "typescript", "vue" },
+                                    },
                                 },
-                              },
+                            },
                             filetypes = { 'typescript', 'javascript', 'vue' },
                         }
                     end,
                     ["volar"] = function()
                         local lspconfig = require("lspconfig")
-                        lspconfig.volar.setup { }
+                        lspconfig.volar.setup {}
                     end,
                     ["eslint"] = function()
                         local lspconfig = require("lspconfig")
@@ -99,8 +100,8 @@ return {
                     end,
                 },
                 window = {
-                    -- completion = cmp.config.window.bordered(),
-                    -- documentation = cmp.config.window.bordered(),
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
@@ -139,7 +140,14 @@ return {
             })
 
             vim.diagnostic.config({
-                virtual_text = true,
+                float = {
+                    focusable = false,
+                    style = "minimal",
+                    border = "rounded",
+                    source = "always",
+                    header = "",
+                    prefix = "",
+                },
             })
         end
     }

@@ -378,6 +378,8 @@ bind - split-window -v
 unbind '"'
 unbind %
 
+set -g default-terminal 'tmux-256color'
+set -as terminal-overrides ",xterm-256color:Tc"
 # reload config file (change file location to your the tmux.conf you want to use)
 bind r source-file ~/.tmux.conf
 
