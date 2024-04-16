@@ -4,6 +4,7 @@ return {
         opts = {},
         config = function()
             require("onedark").setup {
+                style = "warm"
             }
             vim.cmd.colorscheme("onedark")
             vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
