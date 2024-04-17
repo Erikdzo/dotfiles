@@ -9,6 +9,7 @@ return {
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             'hrsh7th/nvim-cmp',
+            'onsails/lspkind.nvim',
             'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
             "j-hui/fidget.nvim",
@@ -41,6 +42,7 @@ return {
                     end,
                     ["lua_ls"] = function()
                         local lspconfig = require("lspconfig")
+
                         lspconfig.lua_ls.setup {
                             capabilities = capabilities,
                             settings = {
@@ -91,8 +93,20 @@ return {
                 }
             })
             local cmp = require("cmp")
+            local lspkind = require("lspkind")
             local cmp_select = { behavior = cmp.SelectBehavior.Select }
             cmp.setup({
+                enabled = function()
+                    -- disable completion in comments
+                    local context = require 'cmp.config.context'
+                    -- keep command mode completion enabled when cursor is in a comment
+                    if vim.api.nvim_get_mode().mode == 'c' then
+                        return true
+                    else
+                        return not context.in_treesitter_capture("comment")
+                            and not context.in_syntax_group("Comment")
+                    end
+                end,
                 snippet = {
                     -- REQUIRED - you must specify a snippet engine
                     expand = function(args)
@@ -100,8 +114,8 @@ return {
                     end,
                 },
                 window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
+                    -- completion = cmp.config.window.bordered(),
+                    -- documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
@@ -115,7 +129,24 @@ return {
                     { name = 'luasnip' }, -- For luasnip users.
                 }, {
                     { name = 'buffer' },
-                })
+                }),
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = 'symbol_text', -- show only symbol annotations
+                        maxwidth = 50,        -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        -- can also be a function to dynamically calculate max width such as
+                        -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
+                        ellipsis_char = '...',    -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+                        menu = ({
+                            buffer = "[Buffer]",
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[LuaSnip]",
+                            nvim_lua = "[Lua]",
+                            latex_symbols = "[Latex]",
+                        })
+                    })
+                }
             })
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -143,7 +174,7 @@ return {
                 float = {
                     focusable = false,
                     style = "minimal",
-                    border = "rounded",
+                    -- border = "rounded",
                     source = "always",
                     header = "",
                     prefix = "",
