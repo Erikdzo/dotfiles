@@ -32,6 +32,10 @@ return {
                 format_on_save = {
                     timeout_ms = 500,
                     lsp_fallback = "always",
+                    filter = function(client)
+                        -- NOTE: temp fix as volar is not formatting correctly
+                        return client.name ~= "volar"
+                    end
                 },
             }
         end,
