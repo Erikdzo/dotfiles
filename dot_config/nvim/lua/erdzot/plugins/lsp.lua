@@ -76,7 +76,14 @@ return {
                     end,
                     ["volar"] = function()
                         local lspconfig = require("lspconfig")
-                        lspconfig.volar.setup {}
+                        lspconfig.volar.setup {
+                            capabilities = capabilities,
+                            init_options = {
+                                vue = {
+                                    hybridMode = true
+                                }
+                            }
+                        }
                     end,
                     ["eslint"] = function()
                         local lspconfig = require("lspconfig")
@@ -148,6 +155,14 @@ return {
                     })
                 }
             })
+
+            cmp.setup.filetype({ "sql" }, {
+                sources = {
+                    { name = "vim-dadbod-completion" },
+                    { name = "buffer" },
+                }
+            })
+
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)
