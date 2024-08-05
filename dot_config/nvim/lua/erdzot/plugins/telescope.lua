@@ -5,20 +5,10 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local default_picker = {
-                sorting_strategy = "ascending",
-                layout_config = {
-                    prompt_position = "top",
-                },
             }
             require("telescope").setup({
                 pickers = {
-                    find_files = {
-                        theme = "dropdown",
-                        previewer = false,
-                        layout_config = {
-                            height = 0.75,
-                        },
-                    },
+                    find_files = default_picker,
                     grep_string = default_picker,
                     live_grep = default_picker,
                     help_tags = default_picker,
@@ -26,17 +16,6 @@ return {
                 extensions = {
                     ["ui-select"] = {
                         require("telescope.themes").get_cursor({})
-                        -- require("telescope.themes").get_dropdown({
-                        --     winblend = 10,
-                        --     border = true,
-                        --     previewer = false,
-                        --     shorten_path = false,
-                        --     results_height = 20,
-                        --     layout_config = {
-                        --         width = 0.25,
-                        --         height = 0.5,
-                        --     },
-                        -- })
                     }
                 }
             })
