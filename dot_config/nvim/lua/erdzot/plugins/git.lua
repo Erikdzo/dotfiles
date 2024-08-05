@@ -8,11 +8,10 @@ return {
     },
     {
         "lewis6991/gitsigns.nvim",
-        opts = {
-            current_line_blame = true,
-            current_line_blame_opts = {
-                delay = 100
-            }
-        }
+        config = function()
+            local gitsigns = require("gitsigns")
+            gitsigns.setup()
+            vim.keymap.set("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "Toggle git blame" })
+        end
     },
 }
