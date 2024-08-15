@@ -14,7 +14,7 @@ return {
                 if neoconf.get("eslint.enabled") then
                     return {}
                 end
-                return { { "prettierd", "prettier" } }
+                return { "prettierd", "prettier", stop_after_first = true }
             end
 
             conform.setup {
@@ -25,9 +25,9 @@ return {
                     javascript = js_formatters,
                     typescript = js_formatters,
                     vue = js_formatters,
-                    html = { { "prettierd", "prettier" } },
-                    css = { { "prettierd", "prettier" } },
-                    scss = { { "prettierd", "prettier" } },
+                    html = { "prettierd", "prettier", stop_after_first = true },
+                    css = { "prettierd", "prettier", stop_after_first = true },
+                    scss = { "prettierd", "prettier", stop_after_first = true },
                     sql = { { "sqlfmt" } }
                 },
                 format_on_save = {
