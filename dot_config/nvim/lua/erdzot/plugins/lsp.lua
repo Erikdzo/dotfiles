@@ -63,6 +63,9 @@ return {
                         lspconfig.tsserver.setup {
                             capabilities = capabilities,
                             init_options = {
+                                preferences = {
+                                    importModuleSpecifierPreference = 'non-relative',
+                                },
                                 plugins = {
                                     {
                                         name = "@vue/typescript-plugin",
@@ -81,7 +84,7 @@ return {
                             init_options = {
                                 vue = {
                                     hybridMode = true
-                                }
+                                },
                             }
                         }
                     end,
