@@ -24,7 +24,7 @@ return {
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     'lua_ls',
-                    'tsserver',
+                    'ts_ls',
                     'eslint',
                     'pyright',
                     'volar',
@@ -54,13 +54,13 @@ return {
                             }
                         }
                     end,
-                    ["tsserver"] = function()
+                    ["ts_ls"] = function()
                         local lspconfig = require("lspconfig")
                         local mason_registry = require('mason-registry')
                         local vue_language_server_path = mason_registry.get_package('vue-language-server')
                             :get_install_path() .. '/node_modules/@vue/language-server'
 
-                        lspconfig.tsserver.setup {
+                        lspconfig.ts_ls.setup {
                             capabilities = capabilities,
                             init_options = {
                                 preferences = {
@@ -81,11 +81,11 @@ return {
                         local lspconfig = require("lspconfig")
                         lspconfig.volar.setup {
                             capabilities = capabilities,
-                            init_options = {
-                                vue = {
-                                    hybridMode = true
-                                },
-                            }
+                            -- init_options = {
+                            --     vue = {
+                            --         hybridMode = true
+                            --     },
+                            -- }
                         }
                     end,
                     ["eslint"] = function()
