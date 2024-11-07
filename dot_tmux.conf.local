@@ -383,6 +383,8 @@ set -as terminal-overrides ",xterm-256color:Tc"
 # reload config file (change file location to your the tmux.conf you want to use)
 bind r source-file ~/.tmux.conf
 
+bind-key -r f run-shell "tmux neww ~/.scripts/tmux-sessionizer"
+
 # -- tpm -----------------------------------------------------------------------
 
 # while I don't use tpm myself, many people requested official support so here
