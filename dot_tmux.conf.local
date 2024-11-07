@@ -383,7 +383,11 @@ set -as terminal-overrides ",xterm-256color:Tc"
 # reload config file (change file location to your the tmux.conf you want to use)
 bind r source-file ~/.tmux.conf
 
+# use `C-a f` to run tmux-sessionizer
 bind-key -r f run-shell "tmux neww ~/.scripts/tmux-sessionizer"
+#
+# use `C-a S` to run ssh-select 
+bind-key -r S run-shell "tmux neww ~/.scripts/ssh-select"
 
 # -- tpm -----------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # https://hiphish.github.io/blog/2020/05/23/how-i-manage-ssh-connections/
 
 export FZF_DEFAULT_OPTS='
@@ -8,4 +8,20 @@ export FZF_DEFAULT_OPTS='
 --preview="awk -v HOST={} -f ~/.ssh/bin/host2conf.awk ~/.ssh/config"'
 
 host=$(grep '^[[:space:]]*Host[[:space:]]' ~/.ssh/config | cut -d ' ' -f 2 | fzf)
-[ $? -eq 0 ] && ssh "$host"
+
+if [[ -z $host ]]; then
+    exit 0
+fi
+
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $host "ssh \"$host\""
+    exit 0
+fi
+
+if ! tmux has-session -t=$host 2> /dev/null; then
+    tmux new-session -ds $host "ssh \"$host\""
+fi
+
+tmux switch-client -t $host
