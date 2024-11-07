@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+# https://hiphish.github.io/blog/2020/05/23/how-i-manage-ssh-connections/
+
+export FZF_DEFAULT_OPTS='
+--height=20%
+--reverse
+--prompt="SSH > "
+--preview="awk -v HOST={} -f ~/.ssh/bin/host2conf.awk ~/.ssh/config"'
+
+host=$(grep '^[[:space:]]*Host[[:space:]]' ~/.ssh/config | cut -d ' ' -f 2 | fzf)
+[ $? -eq 0 ] && ssh "$host"
