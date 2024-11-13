@@ -10,7 +10,9 @@ return {
                 pickers = {
                     find_files = default_picker,
                     grep_string = default_picker,
-                    live_grep = default_picker,
+                    live_grep = {
+                        path_display = { "smart" }
+                    },
                     help_tags = default_picker,
                 },
                 extensions = {
