@@ -8,6 +8,8 @@ export FZF_DEFAULT_OPTS='
 --preview="awk -v HOST={} -f ~/.ssh/bin/host2conf.awk ~/.ssh/config"'
 
 host=$(grep '^[[:space:]]*Host[[:space:]]' ~/.ssh/config | cut -d ' ' -f 2 | fzf)
+host_name=$(echo $host | tr . _)
+echo $host_name
 
 if [[ -z $host ]]; then
     exit 0
@@ -16,12 +18,12 @@ fi
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $host "ssh \"$host\""
+    tmux new-session -s $host_name "ssh \"$host\""
     exit 0
 fi
 
-if ! tmux has-session -t=$host 2> /dev/null; then
-    tmux new-session -ds $host "ssh \"$host\""
+if ! tmux has-session -t=$host_name 2> /dev/null; then
+    tmux new-session -ds $host_name "ssh \"$host\""
 fi
 
-tmux switch-client -t $host
+tmux switch-client -t $host_name

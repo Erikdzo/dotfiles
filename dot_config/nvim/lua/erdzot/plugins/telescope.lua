@@ -11,7 +11,7 @@ return {
                     find_files = default_picker,
                     grep_string = default_picker,
                     live_grep = {
-                        path_display = { "smart" }
+                        path_display = { "tail" }
                     },
                     help_tags = default_picker,
                 },
