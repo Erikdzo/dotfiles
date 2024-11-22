@@ -18,12 +18,12 @@ fi
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $host_name "ssh \"$host\""
+    tmux new-session -s $host_name "eval \"$(ssh-agent -s)\" && ssh \"$host\""
     exit 0
 fi
 
 if ! tmux has-session -t=$host_name 2> /dev/null; then
-    tmux new-session -ds $host_name "ssh \"$host\""
+    tmux new-session -ds $host_name "eval \"$(ssh-agent -s)\" && ssh \"$host\""
 fi
 
 tmux switch-client -t $host_name
