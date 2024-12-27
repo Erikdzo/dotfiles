@@ -28,7 +28,8 @@ return {
                     'eslint',
                     'pyright',
                     'volar',
-                    'tailwindcss'
+                    'tailwindcss',
+                    'vuels'
                 },
                 handlers = {
                     function(server_name) -- default handler (optional)
@@ -60,6 +61,14 @@ return {
                         local vue_language_server_path = mason_registry.get_package('vue-language-server')
                             :get_install_path() .. '/node_modules/@vue/language-server'
 
+                        local node_version = io.popen("node --version"):read("*a")
+
+                        local filetypes = { 'typescript', 'javascript', 'vue' }
+
+                        if node_version:find("^v14") then
+                            filetypes = { 'typescript', 'javascript' }
+                        end
+
                         lspconfig.ts_ls.setup {
                             capabilities = capabilities,
                             init_options = {
@@ -74,7 +83,7 @@ return {
                                     },
                                 },
                             },
-                            filetypes = { 'typescript', 'javascript', 'vue' },
+                            filetypes = filetypes,
                         }
                     end,
                     ["volar"] = function()
@@ -86,6 +95,20 @@ return {
                             --         hybridMode = true
                             --     },
                             -- }
+                        }
+                    end,
+                    ["vuels"] = function()
+                        local node_version = io.popen("node --version"):read("*a")
+
+                        local filetypes = { 'vue' }
+
+                        if node_version:find("^v14") then
+                            filetypes = {}
+                        end
+                        local lspconfig = require("lspconfig")
+                        lspconfig.volar.setup {
+                            capabilities = capabilities,
+                            filetypes = filetypes
                         }
                     end,
                     ["eslint"] = function()
