@@ -1,3 +1,13 @@
+local function get_vue_version()
+    ---@type string
+    local vue_version = io.popen("jq -r .version node_modules/vue/package.json"):read("*a")
+    return vue_version
+end
+
+local function is_version_before_2_7(vue_version)
+    return vue_version:match("^2") and not vue_version:match("^2.7.")
+end
+
 return {
     {
         "neovim/nvim-lspconfig",
@@ -61,12 +71,19 @@ return {
                         local vue_language_server_path = mason_registry.get_package('vue-language-server')
                             :get_install_path() .. '/node_modules/@vue/language-server'
 
-                        local node_version = io.popen("node --version"):read("*a")
-
                         local filetypes = { 'typescript', 'javascript', 'vue' }
+                        local plugins = {
+                            {
+                                name = "@vue/typescript-plugin",
+                                location = vue_language_server_path,
+                                languages = { "javascript", "typescript", "vue" },
+                            }
+                        }
 
-                        if node_version:find("^v14") then
+                        if is_version_before_2_7(get_vue_version()) then
                             filetypes = { 'typescript', 'javascript' }
+                            plugins = {
+                            }
                         end
 
                         lspconfig.ts_ls.setup {
@@ -75,13 +92,7 @@ return {
                                 preferences = {
                                     importModuleSpecifierPreference = 'non-relative',
                                 },
-                                plugins = {
-                                    {
-                                        name = "@vue/typescript-plugin",
-                                        location = vue_language_server_path,
-                                        languages = { "javascript", "typescript", "vue" },
-                                    },
-                                },
+                                plugins = plugins,
                             },
                             filetypes = filetypes,
                         }
@@ -98,15 +109,15 @@ return {
                         }
                     end,
                     ["vuels"] = function()
-                        local node_version = io.popen("node --version"):read("*a")
+                        ---@type string
 
+                        if not is_version_before_2_7(get_vue_version()) then
+                            return
+                        end
                         local filetypes = { 'vue' }
 
-                        if node_version:find("^v14") then
-                            filetypes = {}
-                        end
                         local lspconfig = require("lspconfig")
-                        lspconfig.volar.setup {
+                        lspconfig.vuels.setup {
                             capabilities = capabilities,
                             filetypes = filetypes
                         }
