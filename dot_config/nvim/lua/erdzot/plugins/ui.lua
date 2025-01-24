@@ -33,14 +33,55 @@ return {
         }
     },
     {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
-            -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-        }
+        'nvimdev/dashboard-nvim',
+        event = 'VimEnter',
+        config = function()
+            require('dashboard').setup {
+                -- config
+                config = {
+                    week_header = { enable = true },
+                    project = { enable = false },
+                    mru = { cwd_only = true },
+                }
+            }
+        end,
+        dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+    },
+    {
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        opts = {},
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+        config = function()
+            require("oil").setup {
+
+                columns = {
+                    "icon",
+                    -- "permissions",
+                    "size",
+                    "mtime",
+                },
+                keymaps = {
+                    ["<C-h>"] = false,
+                    ["<C-l>"] = false,
+                    ["<C-k>"] = false,
+                    ["<C-j>"] = false,
+                    ['<C-p>'] = {
+                        callback = function()
+                            local oil = require 'oil'
+                            oil.open_preview { vertical = true, split = 'botright' }
+                        end,
+                    },
+                },
+                view_options = {
+                    show_hidden = true,
+                },
+                preview_split = "right"
+            }
+            -- Open parent directory in current window
+            vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+        end,
     },
     {
         "tpope/vim-sleuth",
