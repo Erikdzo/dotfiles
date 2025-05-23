@@ -37,9 +37,9 @@ return {
                     'ts_ls',
                     'eslint',
                     'pyright',
-                    'volar',
+                    'vue_ls', -- Volar
                     'tailwindcss',
-                    'vuels'
+                    'vuels'   -- Vetur
                 },
                 handlers = {
                     function(server_name) -- default handler (optional)
