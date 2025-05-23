@@ -142,3 +142,4 @@ export COREPACK_ENABLE_AUTO_PIN=0
 alias vim=nvim
 
 export EDITOR=nvim
+export BROWSER=wslview
