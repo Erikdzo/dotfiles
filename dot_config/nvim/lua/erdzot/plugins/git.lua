@@ -27,6 +27,8 @@ return {
             vim.keymap.set("n", "<leader>glb", gitsigns.toggle_current_line_blame,
                 { desc = "Toggle current line git blame" })
             vim.keymap.set("n", "<leader>gb", gitsigns.blame, { desc = "Show git blame" })
+            vim.keymap.set("n", "<leader>g[", gitsigns.next_hunk, { desc = "Show next hunk" })
+            vim.keymap.set("n", "<leader>g]", gitsigns.prev_hunk, { desc = "Show previous hunk" })
         end
     },
 }
