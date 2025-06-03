@@ -12,8 +12,8 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+            { "williamboman/mason.nvim",           version = "^1.11.0" },
+            { "williamboman/mason-lspconfig.nvim", version = "^1.32.0" },
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
@@ -37,9 +37,9 @@ return {
                     'ts_ls',
                     'eslint',
                     'pyright',
-                    'vue_ls', -- Volar
+                    'volar', -- Volar
                     'tailwindcss',
-                    'vuels'   -- Vetur
+                    'vuels'  -- Vetur
                 },
                 handlers = {
                     function(server_name) -- default handler (optional)
