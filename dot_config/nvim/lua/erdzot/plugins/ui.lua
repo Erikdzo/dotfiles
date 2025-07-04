@@ -16,14 +16,14 @@ return {
         },
         opts = {
             options = {
-                icons_enabled = false,
+                icons_enabled = true,
                 theme = 'onedark',
                 component_separators = '|',
                 section_separators = '',
             },
             sections = {
                 lualine_a = { 'mode' },
-                lualine_b = { 'branch' },
+                lualine_b = { 'branch', 'diff', 'diagnostics' },
                 lualine_c = { '%f' },
                 -- lualine_c = { 'filename' },
                 -- lualine_x = { { 'copilot', show_colors = true }, 'encoding', 'fileformat', 'filetype' },
