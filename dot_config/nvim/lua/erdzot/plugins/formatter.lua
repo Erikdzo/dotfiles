@@ -21,14 +21,14 @@ return {
 
                 formatters_by_ft = {
                     lua = { "stylua" },
-                    python = { "black" },
+                    python = { "autoflake", "isort", "black" },
                     javascript = js_formatters,
                     typescript = js_formatters,
                     vue = js_formatters,
                     html = { "prettierd", "prettier", stop_after_first = true },
                     css = { "prettierd", "prettier", stop_after_first = true },
                     scss = { "prettierd", "prettier", stop_after_first = true },
-                    sql = { "sqlfmt", stop_after_first = true }
+                    sql = { "sqlfmt" }
                 },
                 format_on_save = {
                     timeout_ms = 500,
