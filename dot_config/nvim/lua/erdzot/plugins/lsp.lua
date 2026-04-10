@@ -12,8 +12,8 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            { "williamboman/mason.nvim",           version = "^1.11.0" },
-            { "williamboman/mason-lspconfig.nvim", version = "^1.32.0" },
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
@@ -31,111 +31,97 @@ return {
             require("mason").setup()
 
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            require("mason-lspconfig").setup({
+
+            vim.lsp.config('lua_ls', {
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" }
+                        }
+                    }
+                }
+            })
+
+            local vue_language_server_path = vim.fn.expand '$MASON/packages' ..
+                '/vue-language-server' .. '/node_modules/@vue/language-server'
+
+            local ts_ls_filetypes = { 'typescript', 'javascript', 'vue' }
+            local ts_ls_plugins = {
+                {
+                    name = "@vue/typescript-plugin",
+                    location = vue_language_server_path,
+                    languages = { "vue" },
+                    configNamespace = 'typescript',
+                }
+            }
+
+            if is_version_before_2_7(get_vue_version()) then
+                ts_ls_filetypes = { 'typescript', 'javascript' }
+                ts_ls_plugins = {
+                }
+            end
+
+            vim.lsp.config('ts_ls', {
+                capabilities = capabilities,
+                init_options = {
+                    preferences = {
+                        importModuleSpecifierPreference = 'non-relative',
+                    },
+                    plugins = ts_ls_plugins,
+                },
+                filetypes = ts_ls_filetypes,
+            })
+
+            vim.lsp.config('vue_ls', {
+                capabilities = capabilities,
+            })
+
+            if is_version_before_2_7(get_vue_version()) then
+                vim.lsp.config('vuels', {
+                    capabilities = capabilities,
+                    filetypes = { 'vue' }
+                })
+            end
+
+            local base_on_attach = vim.lsp.config.eslint.on_attach
+
+            vim.lsp.config('eslint', {
+                capabilities = capabilities,
+                on_attach = function(client, bufnr)
+                    if not base_on_attach then return end
+
+                    base_on_attach(client, bufnr)
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        buffer = bufnr,
+                        command = "LspEslintFixAll",
+                    })
+                end,
+            })
+
+            vim.lsp.config('stylelint_lsp', {
+                capabilities = capabilities,
+                settings = {
+                    stylelint = {
+                        validate = { 'css', 'postcss', 'scss', 'vue' }
+                    }
+                }
+            })
+
+            require("mason-lspconfig").setup {
                 ensure_installed = {
                     'lua_ls',
                     'ts_ls',
                     'eslint',
                     'pyright',
-                    'volar', -- Volar
+                    'vue_ls', -- Volar
                     'tailwindcss',
-                    'vuels'  -- Vetur
+                    'vuels',  -- Vetur
+                    'cssls',
+                    'stylelint_lsp'
                 },
-                handlers = {
-                    function(server_name) -- default handler (optional)
-                        -- Disable language servers that are define in project config, useful with vue projects that initialize both volar and tsserver by default
-                        if require("neoconf").get(server_name .. ".disable") then
-                            return
-                        end
-                        require("lspconfig")[server_name].setup {
-                            capabilities = capabilities
-                        }
-                    end,
-                    ["lua_ls"] = function()
-                        local lspconfig = require("lspconfig")
+            }
 
-                        lspconfig.lua_ls.setup {
-                            capabilities = capabilities,
-                            settings = {
-                                Lua = {
-                                    diagnostics = {
-                                        globals = { "vim" }
-                                    }
-                                }
-                            }
-                        }
-                    end,
-                    ["ts_ls"] = function()
-                        local lspconfig = require("lspconfig")
-                        local mason_registry = require('mason-registry')
-                        local vue_language_server_path = mason_registry.get_package('vue-language-server')
-                            :get_install_path() .. '/node_modules/@vue/language-server'
-
-                        local filetypes = { 'typescript', 'javascript', 'vue' }
-                        local plugins = {
-                            {
-                                name = "@vue/typescript-plugin",
-                                location = vue_language_server_path,
-                                languages = { "javascript", "typescript", "vue" },
-                            }
-                        }
-
-                        if is_version_before_2_7(get_vue_version()) then
-                            filetypes = { 'typescript', 'javascript' }
-                            plugins = {
-                            }
-                        end
-
-                        lspconfig.ts_ls.setup {
-                            capabilities = capabilities,
-                            init_options = {
-                                preferences = {
-                                    importModuleSpecifierPreference = 'non-relative',
-                                },
-                                plugins = plugins,
-                            },
-                            filetypes = filetypes,
-                        }
-                    end,
-                    ["volar"] = function()
-                        local lspconfig = require("lspconfig")
-                        lspconfig.volar.setup {
-                            capabilities = capabilities,
-                            -- init_options = {
-                            --     vue = {
-                            --         hybridMode = true
-                            --     },
-                            -- }
-                        }
-                    end,
-                    ["vuels"] = function()
-                        ---@type string
-
-                        if not is_version_before_2_7(get_vue_version()) then
-                            return
-                        end
-                        local filetypes = { 'vue' }
-
-                        local lspconfig = require("lspconfig")
-                        lspconfig.vuels.setup {
-                            capabilities = capabilities,
-                            filetypes = filetypes
-                        }
-                    end,
-                    ["eslint"] = function()
-                        local lspconfig = require("lspconfig")
-                        lspconfig.eslint.setup {
-                            capabilities = capabilities,
-                            on_attach = function(client, bufnr)
-                                vim.api.nvim_create_autocmd("BufWritePre", {
-                                    buffer = bufnr,
-                                    command = "EslintFixAll",
-                                })
-                            end,
-                        }
-                    end,
-                }
-            })
             local cmp = require("cmp")
             local lspkind = require("lspkind")
             local cmp_select = { behavior = cmp.SelectBehavior.Select }
