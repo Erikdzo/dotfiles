@@ -10,14 +10,6 @@ sudo apt update
 sudo apt install ripgrep tmux fzf gh jq build-essential zsh -y
 sudo snap install nvim --classic
 
-# Install tree-sitter-cli
-curl -LO https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.8/tree-sitter-cli-linux-x64.zip
-unzip tree-sitter-cli-linux-x64.zip
-sudo mv -vn tree-sitter /usr/local/bin/tree-sitter
-sudo chmod +x /usr/local/bin/tree-sitter
-rm tree-sitter-cli-linux-x64.zip
-
-
 ## Install Oh My Zsh!
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
