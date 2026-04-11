@@ -361,6 +361,9 @@ set -g mode-keys vi
 # set -g prefix C-a
 # bind C-a send-prefix
 
+# close session without exiting tmux
+set-option -g detach-on-destroy off
+
 # if you don't want Oh my tmux! to alter a binding, use #!important
 # bind v new-window -c #{pane_current_path} #!important
 
@@ -385,7 +388,7 @@ bind r source-file ~/.tmux.conf
 
 # use `C-a f` to run tmux-sessionizer
 bind-key -r f run-shell "tmux neww ~/.scripts/tmux-sessionizer"
-#
+
 # use `C-a S` to run ssh-select 
 bind-key -r S run-shell "tmux neww ~/.scripts/ssh-select"
 
