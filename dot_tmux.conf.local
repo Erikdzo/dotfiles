@@ -392,6 +392,9 @@ bind-key -r f run-shell "tmux neww ~/.scripts/tmux-sessionizer"
 # use `C-a S` to run ssh-select 
 bind-key -r S run-shell "tmux neww ~/.scripts/ssh-select"
 
+# use `C-a t` to run ssh-select 
+bind-key -r t run-shell "tmux neww ~/.scripts/workmux-select"
+
 # -- tpm -----------------------------------------------------------------------
 
 # while I don't use tpm myself, many people requested official support so here

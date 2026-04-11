@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Based on https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer
+
+export FZF_DEFAULT_OPTS="
+--reverse
+--prompt=\"Worktrees ($(basename "$PWD")) > \""
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(workmux list --json | jq -r '.[].branch' | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name="$(basename "$PWD" | tr . _)/$(basename "$selected" | tr . _)"
+tmux_running=$(pgrep tmux)
+
+#workmux open $selected_name
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $(workmux path $selected)
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $(workmux path $selected)
+fi
+
+tmux switch-client -t $selected_name
+
