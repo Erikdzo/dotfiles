@@ -11,13 +11,16 @@ return {
         end
     },
     {
+        "tpope/vim-rhubarb",
+        dependencies = {
+            "tpope/vim-fugitive"
+        },
+    },
+    {
         "shumphrey/fugitive-gitlab.vim",
         dependencies = {
             "tpope/vim-fugitive"
         },
-        config = function()
-            vim.g.fugitive_gitlab_domains = { ['gitlab.delfi.net'] = 'https://gitlab.delfi.net' }
-        end
     },
     {
         "lewis6991/gitsigns.nvim",
