@@ -12,8 +12,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
@@ -28,7 +26,6 @@ return {
         config = function()
             require("fidget").setup({})
             require("neoconf").setup({})
-            require("mason").setup()
 
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -107,20 +104,6 @@ return {
                     }
                 }
             })
-
-            require("mason-lspconfig").setup {
-                ensure_installed = {
-                    'lua_ls',
-                    'ts_ls',
-                    'eslint',
-                    'pyright',
-                    'vue_ls', -- Volar
-                    'tailwindcss',
-                    'vuels',  -- Vetur
-                    'cssls',
-                    'stylelint_lsp'
-                },
-            }
 
             local cmp = require("cmp")
             local lspkind = require("lspkind")
