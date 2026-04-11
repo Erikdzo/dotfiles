@@ -5,8 +5,27 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function()
-            require('nvim-treesitter').install({ "javascript", "typescript", "vue", "html", "css", "c", "lua", "vim",
-                "vimdoc" })
+            require('nvim-treesitter').install({
+                "javascript",
+                "typescript",
+                "vue",
+                "html",
+                "css",
+                "c",
+                "lua",
+                "vim",
+                "scss",
+                "vimdoc",
+                "xml"
+            })
+
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = { "javascript", "typescript", "vue", "html", "css", "c", "lua", "vim", "scss",
+                    "vimdoc", "xml" },
+                callback = function()
+                    vim.treesitter.start()
+                end
+            })
         end
     },
     {
