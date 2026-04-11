@@ -10,6 +10,7 @@ sudo apt update
 sudo apt install ripgrep tmux fzf gh jq build-essential zsh -y
 sudo snap install nvim --classic
 
+## Install Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   RUNZSH=no CHSH=no sh -c \
     "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -19,6 +20,9 @@ fi
 cd
 git clone https://github.com/gpakosz/.tmux
 ln -s -f .tmux/.tmux.conf
+
+## Install Workmux
+curl -fsSL https://raw.githubusercontent.com/raine/workmux/main/scripts/install.sh | bash
 
 ## Install NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
