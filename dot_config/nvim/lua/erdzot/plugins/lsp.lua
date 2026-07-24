@@ -19,6 +19,7 @@ local function get_vue_version()
         return nil
     end
 
+    ---@type string
     local vue_version = handle:read("*l")
     handle:close()
 
