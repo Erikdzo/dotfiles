@@ -16,12 +16,14 @@ return {
                 "vim",
                 "scss",
                 "vimdoc",
-                "xml"
+                "xml",
+                "python"
             })
 
             vim.api.nvim_create_autocmd('FileType', {
                 pattern = { "javascript", "typescript", "vue", "html", "css", "c", "lua", "vim", "scss",
-                    "vimdoc", "xml" },
+                    "vimdoc", "xml", "python"
+                },
                 callback = function()
                     vim.treesitter.start()
                 end
