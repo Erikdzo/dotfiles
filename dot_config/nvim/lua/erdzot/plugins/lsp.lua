@@ -52,6 +52,7 @@ return {
             'saadparwaiz1/cmp_luasnip',
             "j-hui/fidget.nvim",
             "folke/neoconf.nvim",
+            'folke/snacks.nvim',
         },
         config = function()
             require("fidget").setup({})
@@ -107,7 +108,6 @@ return {
                             preferGoToSourceDefinition = true
                         },
                     }
-
                 },
                 filetypes = ts_ls_filetypes,
             })
