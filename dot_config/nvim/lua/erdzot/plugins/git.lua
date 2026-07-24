@@ -4,23 +4,7 @@ return {
         event = "BufWinEnter",
         config = function()
             vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-            vim.keymap.set("n", "<leader>gg", vim.cmd.GBrowse)
-            vim.keymap.set("v", "<leader>gl", function()
-                vim.cmd([['<,'>GBrowse]])
-            end)
         end
-    },
-    {
-        "tpope/vim-rhubarb",
-        dependencies = {
-            "tpope/vim-fugitive"
-        },
-    },
-    {
-        "shumphrey/fugitive-gitlab.vim",
-        dependencies = {
-            "tpope/vim-fugitive"
-        },
     },
     {
         "lewis6991/gitsigns.nvim",

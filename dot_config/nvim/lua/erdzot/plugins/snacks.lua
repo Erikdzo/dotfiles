@@ -7,6 +7,10 @@ return {
             },
             picker = {
                 enabled = true
+            },
+            gitbrowse = {
+                enabled = true
+            },
             dashboard = {
                 enabled = true,
                 sections = {
@@ -37,6 +41,7 @@ return {
             { "<leader>pw", function() require('snacks').picker.grep_word() end,    desc = "Visual selection or word", mode = { "n", "x" } },
             { "<leader>pf", function() require('snacks').picker.files() end,        desc = "Find Files" },
             { "<leader>pr", function() require('snacks').picker.recent() end,       desc = "Recent" },
+            { "<leader>gg", function() require('snacks').gitbrowse() end,           mode = { 'n', 'v' },               desc = "Git Browse" },
         }
     }
 }
