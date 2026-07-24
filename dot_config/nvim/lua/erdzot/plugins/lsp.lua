@@ -1,6 +1,30 @@
 local function get_vue_version()
     ---@type string
-    local vue_version = io.popen("jq -r .version node_modules/vue/package.json"):read("*a")
+    -- local vue_version = io.popen("jq -r .version node_modules/vue/package.json"):read("*a")
+
+    local node_check = io.popen("command -v node >/dev/null 2>&1 && echo yes || echo no")
+
+    if node_check == nil then
+        return nil
+    end
+
+    local has_node = node_check:read("*l")
+    node_check:close()
+
+    if has_node ~= "yes" then
+        return nil -- or return "Node.js not found"
+    end
+
+    local handle = io.popen(
+    [[node -e "try{console.log(require('./node_modules/vue/package.json').version)}catch(e){process.exit(1)}"]])
+
+    if handle == nil then
+        return nil
+    end
+
+    local vue_version = handle:read("*l")
+    handle:close()
+
     return vue_version
 end
 
@@ -62,7 +86,11 @@ return {
                 }
             }
 
-            if is_version_before_2_7(get_vue_version()) then
+            local vue_version = get_vue_version()
+
+            local is_vue_before_2_7 = vue_version and is_version_before_2_7(vue_version)
+
+            if is_vue_before_2_7 then
                 ts_ls_filetypes = { 'typescript', 'javascript' }
                 ts_ls_plugins = {
                 }
@@ -79,11 +107,11 @@ return {
                 filetypes = ts_ls_filetypes,
             })
 
-            vim.lsp.config('vue_ls', {
-                capabilities = capabilities,
-            })
-
-            if is_version_before_2_7(get_vue_version()) then
+            if not is_vue_before_2_7 then
+                vim.lsp.config('vue_ls', {
+                    capabilities = capabilities,
+                })
+            else
                 vim.lsp.config('vuels', {
                     capabilities = capabilities,
                     filetypes = { 'vue' }
