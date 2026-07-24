@@ -93,13 +93,21 @@ return {
                 }
             end
 
-            vim.lsp.config('ts_ls', {
+            vim.lsp.config('vtsls', {
                 capabilities = capabilities,
-                init_options = {
-                    preferences = {
-                        importModuleSpecifierPreference = 'non-relative',
+                settings = {
+                    vtsls = {
+                        tsserver = {
+                            globalPlugins = ts_ls_plugins
+                        }
                     },
-                    plugins = ts_ls_plugins,
+                    typescript = {
+                        preferences = {
+                            importModuleSpecifierPreference = 'non-relative',
+                            preferGoToSourceDefinition = true
+                        },
+                    }
+
                 },
                 filetypes = ts_ls_filetypes,
             })
