@@ -1,7 +1,4 @@
 local function get_vue_version()
-    ---@type string
-    -- local vue_version = io.popen("jq -r .version node_modules/vue/package.json"):read("*a")
-
     local node_check = io.popen("command -v node >/dev/null 2>&1 && echo yes || echo no")
 
     if node_check == nil then
@@ -16,7 +13,7 @@ local function get_vue_version()
     end
 
     local handle = io.popen(
-    [[node -e "try{console.log(require('./node_modules/vue/package.json').version)}catch(e){process.exit(1)}"]])
+        [[node -e "try{console.log(require('./node_modules/vue/package.json').version)}catch(e){process.exit(1)}"]])
 
     if handle == nil then
         return nil
