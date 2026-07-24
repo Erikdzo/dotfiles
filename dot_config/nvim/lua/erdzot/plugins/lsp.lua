@@ -9,7 +9,7 @@ local function get_vue_version()
     node_check:close()
 
     if has_node ~= "yes" then
-        return nil -- or return "Node.js not found"
+        return nil
     end
 
     local handle = io.popen(
