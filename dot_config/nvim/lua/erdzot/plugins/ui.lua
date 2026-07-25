@@ -33,39 +33,36 @@ return {
     },
     {
         'stevearc/oil.nvim',
-        ---@module 'oil'
-        opts = {},
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-        config = function()
-            require("oil").setup {
-
-                columns = {
-                    "icon",
-                    -- "permissions",
-                    "size",
-                    "mtime",
+        ---@module 'oil'
+        opts = {
+            columns = {
+                "icon",
+                -- "permissions",
+                "size",
+                "mtime",
+            },
+            keymaps = {
+                ["<C-h>"] = false,
+                ["<C-l>"] = false,
+                ["<C-k>"] = false,
+                ["<C-j>"] = false,
+                ['<C-p>'] = {
+                    callback = function()
+                        local oil = require("oil")
+                        oil.open_preview { vertical = true, split = 'botright' }
+                    end,
                 },
-                keymaps = {
-                    ["<C-h>"] = false,
-                    ["<C-l>"] = false,
-                    ["<C-k>"] = false,
-                    ["<C-j>"] = false,
-                    ['<C-p>'] = {
-                        callback = function()
-                            local oil = require 'oil'
-                            oil.open_preview { vertical = true, split = 'botright' }
-                        end,
-                    },
-                },
-                view_options = {
-                    show_hidden = true,
-                },
-                preview_split = "right"
-            }
-            -- Open parent directory in current window
-            vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-        end,
+            },
+            view_options = {
+                show_hidden = true,
+            },
+            preview_split = "right"
+        },
+        keys = {
+            { "<leader>pv", "<CMD>Oil<CR>", desc = "Open parent directory" }
+        }
     },
     {
         "tpope/vim-sleuth",
@@ -75,13 +72,10 @@ return {
     },
     {
         "sindrets/diffview.nvim",
-        config = function()
-            local diffview = require('diffview')
+        opts = function()
             local actions = require('diffview.actions')
 
-            vim.keymap.set('n', '<leader>pd', diffview.open, {})
-
-            diffview.setup {
+            return {
                 keymaps = {
                     view = {
                         ['q'] = actions.close
@@ -91,6 +85,17 @@ return {
                     }
                 }
             }
+        end,
+        keys = function()
+            local diffview = require('diffview')
+
+            return {
+                { "<leader>pd", function() diffview.open() end, desc = "Diff view" }
+            }
         end
+    },
+    {
+        "j-hui/fidget.nvim",
+        config = true
     }
 }

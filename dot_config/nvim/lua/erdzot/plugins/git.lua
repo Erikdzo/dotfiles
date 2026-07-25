@@ -2,20 +2,22 @@ return {
     {
         "tpope/vim-fugitive",
         event = "BufWinEnter",
-        config = function()
-            vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-        end
+        keys = {
+            { "<leader>gs", vim.cmd.Git, desc = "Git Status" }
+        }
     },
     {
         "lewis6991/gitsigns.nvim",
-        config = function()
-            local gitsigns = require("gitsigns")
-            gitsigns.setup()
-            vim.keymap.set("n", "<leader>glb", gitsigns.toggle_current_line_blame,
-                { desc = "Toggle current line git blame" })
-            vim.keymap.set("n", "<leader>gb", gitsigns.blame, { desc = "Show git blame" })
-            vim.keymap.set("n", "<leader>g[", gitsigns.next_hunk, { desc = "Show next hunk" })
-            vim.keymap.set("n", "<leader>g]", gitsigns.prev_hunk, { desc = "Show previous hunk" })
+        config = true,
+        lazy = false,
+        keys = function()
+            local gitsigns = require('gitsigns')
+            return {
+                { "<leader>gls", function() gitsigns.toggle_current_line_blame() end, desc = "Toggle current line Git Blame" },
+                { "<leader>gb",  function() gitsigns.blame() end,                     desc = "Show Git Blame" },
+                { "<leader>g[",  function() gitsigns.next_hunk() end,                 desc = "Show next hunk" },
+                { "<leader>g]",  function() gitsigns.prev_hunk() end,                 desc = "Show previous hunk" },
+            }
         end
     },
 }

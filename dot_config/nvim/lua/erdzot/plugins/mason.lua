@@ -8,14 +8,12 @@ return {
         dependencies = {
             "mason-org/mason.nvim",
         },
-        config = function()
-            require("mason-tool-installer").setup({
-                ensure_installed = {
-                    "tree-sitter-cli",
-                    "stylelint"
-                }
-            })
-        end
+        opts = {
+            ensure_installed = {
+                "tree-sitter-cli",
+                "stylelint"
+            }
+        },
     },
     {
         "mason-org/mason-lspconfig.nvim",
