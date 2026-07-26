@@ -65,7 +65,8 @@ return {
             local vue_language_server_path = vim.fn.stdpath('data') ..
                 "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
-            local ts_ls_filetypes = { 'typescript', 'javascript', 'vue' }
+            local ts_ls_filetypes = { 'typescript', 'javascript', 'javascriptreact',
+                'typescriptreact', 'vue' }
             local ts_ls_plugins = {
                 {
                     name = "@vue/typescript-plugin",
@@ -80,7 +81,8 @@ return {
             local is_vue_before_2_7 = vue_version and is_version_before_2_7(vue_version)
 
             if is_vue_before_2_7 then
-                ts_ls_filetypes = { 'typescript', 'javascript' }
+                ts_ls_filetypes = { 'typescript', 'javascript', 'javascriptreact',
+                    'typescriptreact', }
                 ts_ls_plugins = {
                 }
             end
@@ -135,7 +137,7 @@ return {
             })
 
             vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+                group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
                 callback = function(ev)
                     -- Enable completion triggered by <c-x><c-o>
                     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
@@ -143,11 +145,11 @@ return {
                     -- Buffer local mappings.
                     -- See `:help vim.lsp.*` for documentation on any of the below functions
                     local opts = { buffer = ev.buf }
+
                     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+                    vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
                     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
                     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-
-
                     vim.keymap.set("n", "[d",
                         function()
                             vim.diagnostic.jump({ count = 1, on_jump = diagnostics_on_jump })

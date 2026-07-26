@@ -53,7 +53,6 @@ return {
                 { "<leader>gf", function() Snacks.picker.git_log_file() end,    desc = "Git Log File" },
                 { "<leader>gg", function() Snacks.gitbrowse() end,              desc = "Git Browse",               mode = { 'n', 'v' }, },
                 -- LSP
-                { "<leader>ca", function() vim.lsp.buf.code_action() end,       desc = "Code Actions" },
                 { "<leader>gd", function() Snacks.picker.lsp_definitions() end, desc = "Go to Definition" },
                 { "<leader>gr", function() Snacks.picker.lsp_references() end,  desc = "References" },
             }
