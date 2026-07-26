@@ -41,6 +41,17 @@ end
 
 return {
     {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+    {
         "neovim/nvim-lspconfig",
         dependencies = {
             "saghen/blink.cmp",
@@ -53,13 +64,6 @@ return {
             })
 
             vim.lsp.config('lua_ls', {
-                settings = {
-                    Lua = {
-                        diagnostics = {
-                            globals = { "vim" }
-                        }
-                    }
-                }
             })
 
             local vue_language_server_path = vim.fn.stdpath('data') ..
