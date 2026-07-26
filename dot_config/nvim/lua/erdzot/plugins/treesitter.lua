@@ -32,10 +32,14 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter-context",
+        event = "BufReadPre",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         opts = {
             max_lines = 1,
         }
     },
-    { "windwp/nvim-ts-autotag" },
+    {
+        "windwp/nvim-ts-autotag",
+        event = "InsertEnter"
+    },
 }

@@ -69,9 +69,11 @@ return {
     },
     {
         "RRethy/vim-illuminate",
+        event = "BufReadPre"
     },
     {
         "sindrets/diffview.nvim",
+        cmd = "DiffviewOpen",
         opts = function()
             local actions = require('diffview.actions')
 
@@ -96,6 +98,7 @@ return {
     },
     {
         "j-hui/fidget.nvim",
+        event = "LspAttach",
         config = true
     }
 }
