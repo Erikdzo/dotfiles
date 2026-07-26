@@ -11,8 +11,8 @@ return {
         keys = {
             { "<leader>gls", function() require('gitsigns').toggle_current_line_blame() end, desc = "Toggle current line Git Blame" },
             { "<leader>gb",  function() require('gitsigns').blame() end,                     desc = "Show Git Blame" },
-            { "[g",          function() require('gitsigns').next_hunk() end,                 desc = "Show next hunk" },
-            { "]g",          function() require('gitsigns').prev_hunk() end,                 desc = "Show previous hunk" },
+            { "[g",          function() require('gitsigns').nav_hunk("next") end,            desc = "Show next hunk" },
+            { "]g",          function() require('gitsigns').nav_hunk("prev") end,            desc = "Show previous hunk" },
         }
     },
 }
