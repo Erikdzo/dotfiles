@@ -164,6 +164,17 @@ return {
                         end, opts)
                     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
                     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+
+                    -- Conseals Markdown syntax in hover windows when hover window is selected
+                    vim.api.nvim_create_autocmd("BufEnter", {
+                        callback = function()
+                            if vim.bo.buftype == "nofile" then
+                                vim.wo.conceallevel = 2
+                                vim.wo.concealcursor = "ncv"
+                            end
+                        end,
+                    })
                 end,
             })
         end
