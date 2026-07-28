@@ -5,6 +5,7 @@ return {
         lazy = false,
         opts = function()
             local Snacks = require('snacks')
+            ---@type snacks.Config
             return {
                 bigfile = {
                     enabled = true
@@ -20,7 +21,17 @@ return {
                     sections = {
                         { section = "header" },
                         { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
-                        { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+                        {
+                            icon = " ",
+                            title = "Recent Files",
+                            section = "recent_files",
+                            indent = 2,
+                            padding = 1,
+                            filter = function(file)
+                                local root = Snacks.git.get_root() or vim.fn.getcwd()
+                                return vim.startswith(file, root)
+                            end
+                        },
                         {
                             icon = " ",
                             title = "Git Status",
