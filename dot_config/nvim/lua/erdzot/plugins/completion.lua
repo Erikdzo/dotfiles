@@ -20,7 +20,7 @@ return {
             -- C-e: Hide menu
             -- C-k: Toggle signature help (if signature.enabled = true)
             keymap = { preset = 'default' },
-            completion = { documentation = { auto_show = false }, ghost_text = { enabled = true }, },
+            completion = { documentation = { auto_show = false }, ghost_text = { enabled = false }, },
             signature = { enabled = true },
             sources = {
                 -- add lazydev to your completion providers
