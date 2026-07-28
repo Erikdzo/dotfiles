@@ -20,7 +20,14 @@ return {
             -- C-e: Hide menu
             -- C-k: Toggle signature help (if signature.enabled = true)
             keymap = { preset = 'default' },
-            completion = { documentation = { auto_show = false }, ghost_text = { enabled = false }, },
+            completion = {
+                trigger = { show_on_insert_on_trigger_character = false },
+                accept = { auto_brackets = { enabled = false } },
+                menu = {
+                    draw = {
+                        columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 }, { 'source_name' } }, }
+                }
+            },
             signature = { enabled = true },
             sources = {
                 -- add lazydev to your completion providers
