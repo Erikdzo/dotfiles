@@ -132,6 +132,15 @@ return {
                 end,
             })
 
+            vim.lsp.config('tailwindcss', {
+                settings = {
+                    tailwindCSS = {
+                        -- tailwind-variants: tv({ base: '…', variants: { … } })
+                        classFunctions = { 'tv' },
+                    },
+                },
+            })
+
             vim.lsp.config('stylelint_lsp', {
                 settings = {
                     stylelint = {
